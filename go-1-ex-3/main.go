@@ -3,19 +3,23 @@ package main
 import (
 	"fmt"
 	"math/rand"
+	"os"
 	"time"
 )
 
 func main() {
-	var eyes = rand.Intn(5) + 1
-	var when = time.Now()
+	rand.Seed(time.Now().UnixNano())
+	augen := rand.Intn(6) + 1
+	zeitpunkt := time.Now()
 
-	// TODO: use fmt.Fprintln instead!
-	fmt.Println("the dice shows", eyes, "eyes")
+	fmt.Fprintln(os.Stdout, "Der Würfel zeigt", augen, "Augen")
+	fmt.Fprintln(os.Stderr, "Der Würfel wurde geworfen am", zeitpunkt)
 
-	// TODO: use fmt.Fprintln instead!
-	fmt.Println("the dice was rolled at", when)
+	datei1, _ := os.Create("augen.txt") 
+	defer datei1.Close()
+	fmt.Fprintln(datei1, "Der Würfel zeigt", augen, "Augen")
 
-	// TODO: how to write the output into eyes.txt and dice.log?
-	// go run ex3/main.go TODO
+	datei2, _ := os.Create("wurf.log")
+	defer datei2.Close()
+	fmt.Fprintln(datei2, "Der Würfel wurde geworfen am", zeitpunkt)
 }
